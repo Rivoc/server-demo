@@ -4,12 +4,12 @@
     padding: 0;
 }body{
     color:#fff;
-    background: black;
+    background: #eee;
 }
 a{
     text-decoration: none;
 }
-ul{
+ul,ol{
     list-style: none;
     margin: 0;
     padding: 0;
@@ -73,10 +73,8 @@ h1, h2, h3, h4, h5, h6 {
     background-color: rgba(0,0,0,0.8)
 }
 .user-card{
-    /* position: absolute;
-    left: 50%;
-    top:50%;
-    transform: translate(-50%,-50%); */
+    margin: 0 auto;
+    margin-top: -340px;
     max-width: 940px;
     color: #000;
     background-color: #fff;
@@ -152,3 +150,131 @@ hr{
 .user-card>.media>a:hover {
     background-color:#cf5d5f;
 }
+main .downloadResume-wrapper{
+    text-align: center;
+}
+main .downloadResume-wrapper>.downloadResume{
+    display: inline-block;
+    margin: 32px auto;
+    padding: 21px 55px;
+    border: 1px solid #cdcfd1;
+    border-radius: 2px;
+    line-height: 16px;
+    color: #3d4451;
+    font-weight: bold;
+    background: #efefef;
+    transition: box-shadow 0.2s;
+}
+main .downloadResume-wrapper>.downloadResume:hover{
+    box-shadow:0px 4px 13px 0px rgba(0, 0, 0, 0.2);
+}
+main .self-intro{
+    max-width: 940px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    color: #000;
+    font-family: cursive;
+    line-height: 1.8;
+    font-size: 18px;
+}
+.skills,.portfolio
+{
+    max-width: 940px;
+    margin: 0 auto;
+    margin-top: 60px;
+    color: #000;
+}
+.skills h2,.portfolio h2{
+    text-align: center;
+    font-weight: bold;
+    color: #3d4451;
+    font-size: 34px;
+    line-height: 1.2;
+}
+.skills h3 {
+    font-size: 14px;
+    line-height: 25px;
+    padding-right: 40px;
+}
+.skills ol{
+    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
+    padding: 50px 42px;
+    padding-bottom: 10px;
+    margin-top: 30px;
+    background-color: #fff;
+}
+.skills ol>li{
+    width: 45%;
+    margin-bottom: 40px;
+}
+.skills ol li:nth-child(odd){
+    float: left;
+}
+.skills ol li:nth-child(even){
+    float: right;
+}
+.skills .progress-bar{
+    height: 5px;
+    background: #FAE1E1;
+    border-radius: 2px;
+}
+.skills .progress-bar>.progress{
+    height: 100%;
+    background: #E6686A;
+    width: 70%;
+    border-radius: 2px;
+}
+.portfolio{
+    text-align: center;
+    margin-bottom: 80px;
+}
+.portfolio nav{
+    display: inline-block;
+    margin-top: 32px;
+}
+.portfolio nav>ol{
+    display: inline-block;
+    vertical-align: top;
+}
+.portfolio nav>ol>li{
+    float: left;
+    cursor: pointer;
+}
+.portfolio nav>ol>li:not(:nth-child(1)){
+    margin-left: 40px;
+}
+.portfolioBar{
+    position: relative;
+    height: 5px;
+    background: white;
+    margin-top: 5px;
+    margin-bottom: 28px;
+    border-radius: 2px;
+}
+.portfolioBar>#bar-inner{
+    position: absolute;
+    height: 100%;
+    background: #E6686A;
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .portfolioBar>#bar-inner.state-1{
+    left: 0%;
+    width: 40px;
+  }
+  .portfolioBar>#bar-inner.state-2{
+    left:28%;
+    width: 50px;
+  }
+  .portfolioBar>#bar-inner.state-3{
+    left: 62%;
+    width: 90px;
+  }
+  .portfolio .works{
+    position: relative;
+  }
+  .portfolio .works > .big,
+  .portfolio .works > .small {
+    position: absolute;
+  }
