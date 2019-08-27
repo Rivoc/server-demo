@@ -43,7 +43,7 @@
     var $imgBox = $(".img-window>.imgs");
     var $allImgs = $(".img-window>.imgs img");
     var $buttonBox = $("#buttons");
-    
+   
     //根据图片数量动态生成button
     for (let i = 0; i < $allImgs.length; i++) {
       $buttonBox.append("<span>第" + (i + 1) + "张</span>");
@@ -62,8 +62,9 @@
     function activeButton($button) {
       $button.addClass("red").siblings(".red").removeClass("red");
     }
+    $buttons.eq(0).trigger("click");
     //设置定时器，自动播放图片
-        var i=0;
+        var i=1;//从1开始，因为js是单线程，定时器会有延迟，从零开始会发现按钮延迟变红
         function setTimer(){
         return setInterval(()=>{
         $buttons.eq(i %($buttons.length)).trigger("click");
