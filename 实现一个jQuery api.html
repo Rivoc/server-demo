@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>JS Bin</title>
+  </head>
+  <style>
+    div {
+      width: 50px;
+      height: 30px;
+      margin-bottom: 10px;
+      background-color: blue;
+    }
+    .red {
+      background-color: red;
+    }
+  </style>
+  <body>
+    <div></div>
+    <div></div>
+  </body>
+  <script>
+    window.jQuery = function(nodesOrSelector) {
+      let nodes = {};
+      if (typeof nodesOrSelector === "string") {
+        //如果传入的是选择器
+        nodes = document.querySelectorAll(nodesOrSelector);
+      } else if (nodesOrSelector instanceof Node) {
+        //如果传入的是node节点
+        nodes = { 0: nodesOrSelector, length: 1 };
+      }
+      nodes.addClass = function(classes) {
+        //两层循环，外层遍历node，每次遍历给node添加所有的class，所以加一个内循环，遍历class
+        for (let i = 0; i < nodes.length; i++) {
+          classes.forEach(value => {
+            nodes[i].classList.add(value);
+          });
+        }
+      };
+      nodes.setText = function(text) {
+        for (let i = 0; i < nodes.length; i++) {
+          nodes[i].textContent = text;
+        }
+      };
+      return nodes;
+    };
+    window.$ = jQuery;
+    var $div = $("div");
+    $div.addClass(["red"]);
+    $div.setText("hi");
+  </script>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="http://libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+    <title>Document</title>
+    <style>
+      .img-window {
+        width: 750px;
+        margin: 100px auto;
+        overflow: hidden;
+      }
+      .img-window > .imgs {
+        display: flex;
+        align-items: flex-start;
+        transition: all 0.5s;
+      }
+      #buttons > span {
+        padding: 10px;
+      }
+      .red {
+        color: red;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="img-window">
+      <div class="imgs">
+        <img src="./img/w1.jpg" alt="图片1" width="750" />
+        <img src="./img/w2.jpg" alt="图片2" width="750" />
+        <img src="./img/w3.jpg" alt="图片3" width="750" />
+        <img src="./img/w4.jpg" alt="图片4" width="750" />
+        <img src="./img/w5.jpg" alt="图片5" width="750" />
+        <img src="./img/w6.jpg" alt="图片6" width="750" />
+      </div>
+      <span id="buttons"></span>
+    </div>
+  </body>
+  <script>
+    var $imgBox = $(".img-window>.imgs");
+    var $allImgs = $(".img-window>.imgs img");
+    var $buttonBox = $("#buttons");
+    
+    //根据图片数量动态生成button
+    for (let i = 0; i < $allImgs.length; i++) {
+      $buttonBox.append("<span>第" + (i + 1) + "张</span>");
+    }
+    var $buttons = $("#buttons>span");
+    //给按钮绑定事
+    for (let i = 0; i < $buttons.length; i++) {
+      $buttons.eq(i).on("click", function() {
+        var index = $(this).index();
+        activeButton($buttons.eq(index)); //激活按钮
+        $imgBox.css({
+          transform: "translate(" + -index * 750 + "px)"//图片box移动
+        });
+      });
+    }
+    function activeButton($button) {
+      $button.addClass("red").siblings(".red").removeClass("red");
+    }
+    //设置定时器，自动播放图片
+        var i=0;
+        function setTimer(){
+        return setInterval(()=>{
+        $buttons.eq(i %($buttons.length)).trigger("click");
+        i++;
+      },1000)
+    }
+    var timerId = setTimer()
+    //鼠标移入停止定时器，移出恢复定时器
+    $imgBox.on('mouseenter',function(){
+        clearInterval(timerId)
+    })   
+    $imgBox.on('mouseleave',function(){
+        timerId=setTimer()
+    })   
+    
+     
+
+  </script>
+</html>
