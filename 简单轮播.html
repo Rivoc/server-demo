@@ -49,7 +49,7 @@
       $buttonBox.append("<span>第" + (i + 1) + "张</span>");
     }
     var $buttons = $("#buttons>span");
-    //给按钮绑定事
+    //给按钮绑定事件
     for (let i = 0; i < $buttons.length; i++) {
       $buttons.eq(i).on("click", function() {
         var index = $(this).index();
@@ -62,7 +62,7 @@
     function activeButton($button) {
       $button.addClass("red").siblings(".red").removeClass("red");
     }
-    $buttons.eq(0).trigger("click");
+    $buttons.eq(0).trigger("click");//默认第一个按钮是激活状态
     //设置定时器，自动播放图片
         var i=1;//从1开始，因为js是单线程，定时器会有延迟，从零开始会发现按钮延迟变红
         function setTimer(){

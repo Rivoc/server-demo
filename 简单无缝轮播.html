@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script src="http://libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  </head>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    ul,
+    li{
+      list-style:none;
+    }
+    .img-window {
+      position:relative;
+      margin: 100px auto;
+      width: 750px;
+      
+    }
+
+    .img-window > .imgs {
+      position: relative;
+      height: 422px;
+      overflow: hidden;
+    }
+
+    .img-window > .imgs > img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: all 0.5s;
+    }
+
+    .current {
+      z-index: 1;
+      transform: translateX(0);
+    }
+
+    .leave {
+      z-index: 1;
+      transform: translateX(-100%);
+    }
+
+    .enter {
+      transform: translateX(100%);
+    }
+
+    ol {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 20px;
+      padding: 0 5px;
+      z-index: 2;
+    }
+
+    ol.circles li {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      margin: 3px 5px;
+      border-radius: 50%;
+      border: 2px solid rgba(247, 243, 243, 0.4);
+      cursor: pointer;
+    }
+    .active{
+    border: 1px solid rgba(245, 245, 245, 0.1);
+    background: rgba(253, 252, 252, 0.8);
+    box-shadow: 0 0 0 4px rgba(228, 224, 224, 0.3);
+    }
+   
+  </style>
+
+  <body>
+    <div class="img-window">
+      <div class="imgs">
+        <img src="./img/w1.jpg" alt="图片1" width="750" />
+        <img src="./img/w2.jpg" alt="图片2" width="750" />
+        <img src="./img/w3.jpg" alt="图片3" width="750" />
+        <img src="./img/w4.jpg" alt="图片4" width="750" />
+        <img src="./img/w5.jpg" alt="图片5" width="750" />
+        <img src="./img/w6.jpg" alt="图片6" width="750" />
+      </div>
+      <ol class="circles">
+        <!-- 小圆点 -->
+      </ol>
+    </div>
+  </body>
+  <script>
+    $imgs = $(".img-window > .imgs>img");
+    $circleBox = $(".img-window .circles");
+    let n = 0;
+    init();
+    setInterval(() => {
+      makeLeave(getImg(n % 6)).one("transitionend", e => {
+        makeEnter($(e.target));
+      });
+      makeCurrent(getImg((n + 1) % 6));
+      activeCircle(getCircle((n + 1) % 6))
+      n++;
+    }, 1500);
+    function init() {
+      //初始化
+      var num = 0;
+      makeCurrent(getImg(0))
+        .siblings()
+        .addClass("enter");
+      while (num < $imgs.length) {//根据图片数量生成小圆点
+        $circleBox.append("<li></li>");
+        num++;
+      }
+      $circles=$('.circles li')
+     getCircle(0).addClass('active')
+    }
+    function getImg(n) {
+      return $imgs.eq(n);
+    }
+    function makeCurrent($node) {
+      return $node.removeClass("leave enter").addClass("current");
+    }
+    function makeLeave($node) {
+      return $node.removeClass("current enter").addClass("leave");
+    }
+    function makeEnter($node) {
+      return $node.removeClass("current leave").addClass("enter");
+    }
+    function getCircle(n){
+      return $circles.eq(n)
+    }
+    function activeCircle($node){
+      return $node.addClass('active').siblings().removeClass('active')
+    }
+  </script>
+</html>
