@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.js"></script>
+    <style>
+        .wrapper{
+            position: relative;
+            border: 1px solid red;
+        }
+        .popover{
+            top:50px;
+            position: absolute;
+            background: rgb(197, 190, 190);
+            padding: 40px 25px;
+            display:none;
+        }
+        .popover::before{
+            content: "";
+            display: block;
+            position: absolute;
+            top:-15px;
+            left:50%;
+            transform: translateX(-50%);
+            width: 0;
+            height:0;
+            border-style: solid;
+            border-color: transparent transparent rgb(197, 190, 190) transparent;
+            border-width:0 20px 20px 20px;
+            
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <button class="clickMe">点我弹出浮层</button>
+        <div class="popover">这是浮层</div>
+    </div>
+</body>
+<script>
+    flag=true;//默认f浮层关闭状态为true
+    $('.clickMe').bind('click',(e)=>{
+        if(flag){
+            $('.popover').css({"display":"block"});
+            e.stopPropagation()
+            flag=!flag
+        }
+        else{
+            $('.popover').css({"display":"none"});
+            e.stopPropagation()
+            flag=!flag;
+        }
+    })
+    $('.popover').bind('click',(e)=>{
+        e.stopPropagation();
+    })
+    $(document).bind('click',(e)=>{
+        $('.popover').css({"display":"none"});
+        flag=true
+    })
+        
+</script>
+</html>

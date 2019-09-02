@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AJAX 实例</title>
+  <style>
+    .container {
+      width: 800px;
+      margin: 0 auto;
+    }
+
+    .news {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .news >li {
+      border: 1px solid #ccc;
+      padding: 5px 10px;
+      margin: 10px;
+      color: #666;
+
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <ul class="news">
+    </ul>
+    <button id="change">换一组</button>
+  </div>
+
+  <script>
+    var newsContainer = document.querySelector(".news")
+    var changeBtn = document.querySelector("#change")
+    
+    getNews(function(news){
+      renderNews(news)
+    })
+    
+    changeBtn.onclick = function() {
+      getNews(function(news){
+        renderNews(news)
+      })
+    }
+
+
+    function getNews(callback) {//通过ajax获取数据并将JSON 格式的字符串转换为对象，然后调用回调函数,对返回的数据做一个随机筛选
+      var xhr = new XMLHttpRequest()
+      xhr.open("GET", "./getNews", true)
+      xhr.send()
+      xhr.onload = function() {
+        var newsJson = JSON.parse(xhr.responseText)//把后端返回的字符串转化成JSON对象
+        callback(newsJson)
+      }
+    }
+
+    function renderNews(news) {//渲染新闻
+      newsContainer.innerHTML = ""//每获取一次新闻都要重新渲染页面，所以清空之前的新闻
+      var fragement = document.createDocumentFragment()
+      news.forEach(function(newsStr) {
+        var node = document.createElement("li")
+        node.innerText = newsStr
+        fragement.appendChild(node)
+      })
+      newsContainer.appendChild(fragement)
+    }
+  </script>
+</body>
+</html>
