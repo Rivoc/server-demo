@@ -3,13 +3,15 @@ class Carousel {
         this.root = typeof root === "string" ? document.querySelector(node) : node; //p根据传入的是字符串或选择器做不同的处理
         this.$ = selector => document.querySelector(selector);
         this.$$ = selector => document.querySelectorAll(selector); //定义两个方便获取元素的方法
-        this.panelsCt = this.$(".panels");
+        this.carousel = this.$('.carousel');
+        this.panelsCt = this.$(".panels");//获取容器
         this.panels = [...this.$$(".panels a")]; //获取包裹图片的a标签
         this.pre = this.$(".carousel .pre");
         this.next = this.$(".carousel .next");
         this.dots = [...(this.$$(".carousel .dots span"))]; //小圆点
         this.dotsCt = this.$(".carousel .dots"); //获取装小圆点的盒子
-        this.bind(); 
+        this.bind();
+
     }
     debounce(fn, wait) {
         var timer = null; //创建一个标记储存定时器的返回值
@@ -27,6 +29,20 @@ class Carousel {
         };
     }
     bind() {
+        let t;
+        //用setTimeout替代setInterval
+        const autoPlay = () => {
+            this.next.click();
+            t = setTimeout(autoPlay, 1500);
+        }
+        this.carousel.onmouseover = () => {
+            t && clearTimeout(t)
+        }
+        this.carousel.onmouseleave = () => {
+            setTimeout(autoPlay, 1500)
+        }
+        setTimeout(autoPlay, 1500)
+
         this.dotsCt.onclick = (e) => {
             if (e.target.tagName !== "SPAN") {
                 //如果点击的不是小圆点，就终止
@@ -63,6 +79,7 @@ class Carousel {
             };
         }
     }
+
     get index() {
         //获取当前被激活的小圆点的下标
         return this.dots.indexOf(this.$("span.active"));
@@ -90,45 +107,46 @@ class Carousel {
         );
         let toNodeIndex = Array.from(toNode.parentElement.children).indexOf(toNode);
         let width = parseInt(getComputedStyle(fromNode).width); //获取图片宽度
-        if (toNodeIndex == 0 && fromNodeIndex == this.dots.length-1) {
+
+        if (toNodeIndex == 0 && fromNodeIndex == this.dots.length - 1) {
             css(fromNode, {
                 zIndex: 10,
-                transition: `transform .5s`, //设置补间时间
+                transition: `transform .5s`, 
                 transform: `translateX(-100%)`
-            }); 
+            });
             css(toNode, {
                 zIndex: 10,
-                left: `${width}px`, 
+                left: `${width}px`,
                 transition: `transform .5s`,
                 transform: 'translateX(-100%)'
             });
         }
-        else if(toNodeIndex == this.dots.length-1 && fromNodeIndex == 0){
+        else if (toNodeIndex == this.dots.length - 1 && fromNodeIndex == 0) {
             css(fromNode, {
                 zIndex: 10,
-                transition: `transform .5s`, //设置补间时间
+                transition: `transform .5s`, 
                 transform: `translateX(100%)`
-            }); 
+            });
             css(toNode, {
                 zIndex: 10,
-                left: `${-width}px`, 
+                left: `${-width}px`,
                 transition: `transform .5s`,
                 transform: 'translateX(100%)'
             });
         }
-        else{
-        css(fromNode, {//用Object.entries方法可以转化成例如[[zIndex,10]]
-            zIndex: 1,
-            transition: `transform .5s`, //设置补间时间
-            transform: `translateX(${fromNodeIndex < toNodeIndex ? "-" : ""}100%)`
-        }); //判断左滑还是右滑，如果fromNodeIndex小于toNodeIndex则向左滑，大于则向右滑
-        css(toNode, {
-            zIndex: 1,
-            left: `${fromNodeIndex < toNodeIndex ? "" : "-"}${width}px`, //向左滑，toNode放在右边，向右滑，放在最左边
-            transition: `transform .5s`,
-            transform: `translateX(${fromNodeIndex < toNodeIndex ? "-" : ""}100%)`
-        })
-    }
+        else {
+            css(fromNode, {//用Object.entries方法可以转化成例如[[zIndex,10]]
+                zIndex: 1,
+                transition: `transform .5s`, //设置补间时间
+                transform: `translateX(${fromNodeIndex < toNodeIndex ? "-" : ""}100%)`
+            }); //判断左滑还是右滑，如果fromNodeIndex小于toNodeIndex则向左滑，大于则向右滑
+            css(toNode, {
+                zIndex: 1,
+                left: `${fromNodeIndex < toNodeIndex ? "" : "-"}${width}px`, //向左滑，toNode放在右边，向右滑，放在最左边
+                transition: `transform .5s`,
+                transform: `translateX(${fromNodeIndex < toNodeIndex ? "-" : ""}100%)`
+            })
+        }
         //0.5s动画结束，取消元素的过渡属性，并复原位置
         setTimeout(() => {
             //动画结束后取消fromNode和toNode的过渡效果，并将translateX恢复到原始状态
