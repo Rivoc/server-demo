@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      ul,
+      li {
+        list-style: none;
+      }
+    </style>
+  </head>
+  <body>
+    <ul id="container"></ul>
+    <button id="button">换一批</button>
+  </body>
+  <script>
+    var container = document.getElementById('container')
+    var button = document.getElementById('button')
+    getData(handleData)
+    button.onclick = () => {
+      getData(handleData)
+    }
+    function getData(callback) {
+      var xhr = new XMLHttpRequest()
+      xhr.open('GET', '/getData')
+      xhr.send()
+      xhr.addEventListener('load', () => {
+        if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
+          var datas = JSON.parse(xhr.responseText)
+          callback(datas)
+        } else {
+          console.log('error')
+        }
+      })
+    }
+    function handleData(datas) {
+      container.innerHTML = '' //每次获取数据前先清空container里的内容
+      var fragment = document.createDocumentFragment()
+      datas.forEach(data => {
+        var node = document.createElement('li')
+        node.innerText = data
+        fragment.appendChild(node)
+      })
+      container.appendChild(fragment)
+    }
+  </script>
+</html>
