@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button>点我发请求</button>
+  </body>
+  <script>
+    let button = document.getElementsByTagName('button')
+    window.jQuery = function() {}
+    window.jQuery.ajax = function({
+      url,
+      method = 'get',
+      data,
+      succfn,
+      failfn,
+      headers
+    }) {
+      let req = new XMLHttpRequest()
+      req.open(method, url)
+      for (let key in headers) {
+        let value = headers[key]
+        req.setRequestHeader(key, value)
+      }
+      req.send(data)
+      req.onreadystatechange = () => {
+        if (req.readyState === 4) {
+          if ((req.status >= 200) & (req.status < 300)) {
+            succfn.call(undefined, req.responseText)
+          } else {
+            failfn.call(undefined, req.responseText)
+          }
+        }
+      }
+    }
+    window.$ = window.jQuery
+    button[0].addEventListener('click', e => {
+      $.ajax({
+        url: 'https://study.163.com/',
+        data: '请求参数',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        succfn: res => {
+          console.log('请求成功')
+        },
+        failfn: res => {
+          console.log('请求失败')
+        }
+      })
+    })
+  </script>
+</html>
